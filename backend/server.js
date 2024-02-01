@@ -2,6 +2,7 @@
 import dotenv from 'dotenv'//package that loads environment variables from .env file into the process.env object avaible to us globally in NodeJs
 import express from "express"
 import workoutRoutes from './routes/workouts.js'
+import mongoose from 'mongoose';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -21,8 +22,16 @@ app.use((req, res, next) => {
 //routes
 app.use('/api/workouts', workoutRoutes)// workout routes fires only when /api/workouts there
 
-//listen for requests
-app.listen(process.env.PORT, () => {
-    console.log('Listening on Port ', process.env.PORT)
-})
+//connect to db
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        //once connected to db then only we listen to requests
+        //listen for requests
+        app.listen(process.env.PORT, () => {
+            console.log('Connected to DB and listening on Port ', process.env.PORT)
+        })
+
+    })
+    .catch((error) => { console.log(error) })
+
 
