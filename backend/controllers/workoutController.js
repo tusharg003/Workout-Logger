@@ -39,8 +39,34 @@ const createWorkout = async (req, res) => {
 }
 
 //delete a workout
+const deleteWorkout = async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such Workout to delete' })
+    }
+
+    const workout = await workoutModal.findOneAndDelete({ _id: id })
+    if (!workout) {
+        return res.status(404).json({ error: 'No such workout ' })
+    }
+    res.status(200).json(workout)
+}
 
 //update a workout
+const updateWorkout = async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such workout' })
+    }
 
+    const workout = await workoutModal.findOneAndUpdate({ _id: id }, {
+        ...req.body// spread the request body as it has the updated title reps and load attribute
+    })
 
-export { createWorkout, getWorkout, getWorkouts }
+    if (!workout) {
+        return res.status(404).json({ error: 'No such workout ' })
+    }
+    res.status(200).json(workout)
+}
+
+export { createWorkout, getWorkout, getWorkouts, deleteWorkout, updateWorkout }
