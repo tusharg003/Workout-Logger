@@ -7,5 +7,5 @@ export default defineConfig({
       '/api': 'http://localhost:4000',
     },
   },
-  plugins: [react()],
+  plugins: [react()], 
 });
