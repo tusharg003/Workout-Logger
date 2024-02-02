@@ -3,6 +3,7 @@ import dotenv from 'dotenv'//package that loads environment variables from .env 
 import express from "express"
 import workoutRoutes from './routes/workouts.js'
 import mongoose from 'mongoose';
+import cors from 'cors'
 
 // Load environment variables from .env file
 dotenv.config();
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
     console.log(req.method, req.path)
     next()
 })
+app.use(cors())
 
 
 //routes
@@ -32,6 +34,6 @@ mongoose.connect(process.env.MONGO_URI)
         })
 
     })
-    .catch((error) => { console.log(error)})
+    .catch((error) => { console.log(error) })
 
 
