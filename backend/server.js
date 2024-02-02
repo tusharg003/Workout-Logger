@@ -14,7 +14,7 @@ const app = express();
 //middlewares
 app.use(express.json());//any req that comes in if it has body then it passes and attacs it to req obj
 app.use((req, res, next) => {
-    console.log(req.path, req.method)
+    console.log(req.method, req.path)
     next()
 })
 
@@ -32,6 +32,6 @@ mongoose.connect(process.env.MONGO_URI)
         })
 
     })
-    .catch((error) => { console.log(error) })  
+    .catch((error) => { console.log(error)})
 
 
